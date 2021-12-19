@@ -27,7 +27,7 @@ $ python train.py
 
 The AdamW optimizer was used for network training, with 200 epochs on an Nvidia RTX 3090 card. The initial learning rate was set to 0.001 and the batch size was set to 64.
 
-<img width="400" height="300" src="https://github.com/Jingqiao-Zhao/FAASC/result.png"/>
+<img width="400" height="300" src="https://github.com/Jingqiao-Zhao/FAASC/blob/master/result.png"/>
 
 
 
