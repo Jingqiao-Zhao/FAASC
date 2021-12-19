@@ -9,8 +9,8 @@
 
 ## Background
 We evaluate the proposed method on DCASE 2019 Task1b and DCASE 2020 Task1a. 
-% Both are used to evaluate ASC algorithms across recording devices. 
-DCASE 2020 contains 15480 samples captured by 9 devices: $14400 \times 3$ samples recorded by 3 real devices (A, B, C) and $1080 \times 6$ samples of 6 simulated devices (S1-S6).
+Both are used to evaluate ASC algorithms across recording devices. 
+DCASE 2020 contains 15480 samples captured by 9 devices: 14400 samples recorded by 3 real devices (A, B, C) and 1080 samples of 6 simulated devices (S1-S6).
 Note that the samples of the S4-S6 devices do not appear in the training set. 
 DCASE 2019 contains 16560 segments, including 14400/1080/1080 samples from the devices A/B/C, respectively. 
 
