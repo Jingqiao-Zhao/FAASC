@@ -36,7 +36,7 @@ If you want to visualize the T-sne plot of the results, set the information to v
 $ cd pytorch
 $ python test.py
 ```
-# Due to github limit file upload size, please contact me if you need pre-trained best model.
+### Due to github limit file upload size, please contact me if you need pre-trained best model.
 
 ## Results
 
