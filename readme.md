@@ -4,6 +4,7 @@
 
 - [Background](#background)
 - [Install](#install)
+- [visualization](#visualization)
 - [Results](#results)
 - [References](#references)
 
@@ -16,17 +17,24 @@ DCASE 2019 contains 16560 segments, including 14400/1080/1080 samples from the d
 
 ## Install
 Download the [data](https://doi.org/10.5281/zenodo.3670185) and Change the path in config.py to your own.
-```sh
-$ pip install -r requirements.txt
-```
+
 ```sh
 $ cd utilities
-$ python features.sh
+$ python features.py
 ```
 ```sh
 $ cd pytorch
 $ python train.py
 
+```
+## visualization
+If you want to visualize feature maps during feature alignment, set 'feature_maps' in 'config' to True.
+
+If you want to visualize the T-sne plot of the results, set the information to visualize the results in 'config'.
+
+```sh
+$ cd pytorch
+$ python test.py
 ```
 
 ## Results
