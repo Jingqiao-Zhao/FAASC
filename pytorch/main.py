@@ -17,7 +17,7 @@ from pytorch.model import *
 from pytorch.evaluate import Evaluator, StatisticsContainer
 from pytorch.pytorch_utils import move_data_to_gpu, forward
 from tensorboardX import SummaryWriter
-from pytorch.loss import nll_loss,discrepancy,focal_loss,klv,mmd
+from pytorch.loss import nll_loss,discrepancy,klv,mmd
 from pytorch.pytorch_utils import random_feature
 
 
@@ -106,7 +106,7 @@ def train():
 
     loss_cla = nll_loss
 
-    loss_adv1 = klv
+    loss_adv = nn.MSELoss()
 
 
     # Data generator
@@ -119,7 +119,7 @@ def train():
 
     # Evaluator
     evaluator = Evaluator(
-        model1=model,
+        model=model,
         data_generator=data_generator,
         cuda=cuda)
 
@@ -233,44 +233,44 @@ def train():
         feature_s1,feature_s2,feature_s3= model(batch_data_dict['source_feature'], return_feature=True)
 
         feature_t1,feature_t2,feature_t3= model(batch_data_dict['target_feature'], return_feature=True)
-        '''
-        if iteration %200==0:
-            source_figure = batch_data_dict['source_feature'][0].cpu().detach().numpy()
-            target_figure = batch_data_dict['target_feature'][0].cpu().detach().numpy()
-            
-            plt.figure()
+
+        if config.feature_maps==True:
+
+            if iteration %200==0:
+                source_figure = batch_data_dict['source_feature'][0].cpu().detach().numpy()
+                target_figure = batch_data_dict['target_feature'][0].cpu().detach().numpy()
+
+                plt.figure()
+
+                ax1 = plt.subplot(2, 2, 1)
+                ax2 = plt.subplot(2, 2, 2)
+                ax3 = plt.subplot(2, 2, 3)
+                ax4 = plt.subplot(2, 2, 4)
+
+                plt.sca(ax1)
+                librosa.display.specshow(source_figure.T)
+                plt.title('source_image')
+                #encoder1_image
+
+                plt.sca(ax3)
+                #librosa.display.specshow(librosa.power_to_db(torch.mean(model.encoder2(model.decoder(model.encoder1(x_input))[0,:,:,:]),dim=1)[0].cpu().detach().numpy()).T)
+                librosa.display.specshow(torch.mean(model(batch_data_dict['source_feature'],return_feature=True)[0],dim=0).cpu().detach().numpy().T)
+                plt.title('source_feature')
+
+                plt.sca(ax4)
+                librosa.display.specshow(torch.mean(model(batch_data_dict['target_feature'],return_feature=True)[0],dim=0).cpu().detach().numpy().T)
+                plt.title('target_feature')
+
+                plt.sca(ax2)
+                librosa.display.specshow(target_figure.T)
+                plt.title('target_image')
+
+                plt.savefig('./image_result/{}.png'.format(str(iteration)))
 
 
-            ax1 = plt.subplot(2, 2, 1)
-            ax2 = plt.subplot(2, 2, 2)
-            ax3 = plt.subplot(2, 2, 3)
-            ax4 = plt.subplot(2, 2, 4)
-
-            plt.sca(ax1)
-            librosa.display.specshow(source_figure.T)
-            plt.title('source_image')
-            #encoder1_image
-
-            plt.sca(ax3)
-            #librosa.display.specshow(librosa.power_to_db(torch.mean(model.encoder2(model.decoder(model.encoder1(x_input))[0,:,:,:]),dim=1)[0].cpu().detach().numpy()).T)
-            librosa.display.specshow(torch.mean(model(batch_data_dict['source_feature'],return_feature=True)[0],dim=0).cpu().detach().numpy().T)
-            plt.title('source_feature')
-
-            plt.sca(ax4)
-            librosa.display.specshow(torch.mean(model(batch_data_dict['target_feature'],return_feature=True)[0],dim=0).cpu().detach().numpy().T)
-            plt.title('target_feature')
-
-            plt.sca(ax2)
-            librosa.display.specshow(target_figure.T)
-            plt.title('target_image')
-
-            plt.savefig('./image_result/{}.png'.format(str(iteration)))
-            wandb.log({'Feature':wandb.Image('./image_result/{}.png'.format(str(iteration))), 'Batch_index':iteration})
-            
-        '''
         output_t,cla1,cla2 = model(batch_data_dict['target_feature'])
 
-        loss_feat_dal_s_t1 = loss_adv1(feature_t1,feature_s1)+loss_adv1(feature_t2,feature_s2)+loss_adv1(feature_t3,feature_s3)
+        loss_feat_dal_s_t1 = loss_adv(feature_t1,feature_s1)+loss_adv(feature_t2,feature_s2)+loss_adv(feature_t3,feature_s3)
 
 
         loss_t = loss_cla(output_t, batch_data_dict['target'])
@@ -293,7 +293,7 @@ def train():
 
 
 if __name__ == '__main__':
-    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+    os.environ['CUDA_VISIBLE_DEVICES'] = config.cuda_id
     train()
 
 
