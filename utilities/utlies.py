@@ -162,9 +162,9 @@ def pca_show(labels,index,output,target,source):
 
     ax = fig.add_subplot(1, 1, 1)
     plt.tick_params(labelsize=25)
-    # ax.set_xlabel('Principal Component 1', fontsize=15)
-    # ax.set_ylabel('Principal Component 2', fontsize=15)
-    # ax.set_title('PCA Results For {}'.format(str(source).upper()), fontsize=20)
+    ax.set_xlabel('Principal Component 1', fontsize=15)
+    ax.set_ylabel('Principal Component 2', fontsize=15)
+    ax.set_title('PCA Results For {}'.format(str(source).upper()), fontsize=20)
 
     for label in labels:
         indicesToKeep = finalDf['target'] == label
