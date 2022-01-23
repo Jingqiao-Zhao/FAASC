@@ -20,9 +20,11 @@ Download the [data](https://doi.org/10.5281/zenodo.3670185) and Change the path 
 $ pip install -r requirements.txt
 ```
 ```sh
+$ cd utilities
 $ python features.sh
 ```
 ```sh
+$ cd pytorch
 $ python train.py
 
 ```
